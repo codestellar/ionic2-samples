@@ -1,26 +1,18 @@
-This is a starter template for [Ionic 2](http://ionicframework.com/docs/v2/) projects.
+This is a simple Notes application making use of Sql Storage. [Inspiration](https://devdactic.com/ionic-2-sqlstorage/)
 
-## How to use this template
-
-*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/driftyco/ionic2-app-base).
-
-To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/driftyco/ionic2-app-base).
+## How to use this project
 
 ### With the Ionic CLI:
 
-Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
-
 ```bash
 $ sudo npm install -g ionic cordova
-$ ionic start myBlank blank --v2
+$ npm install -g ionic@beta
+$ npm install -g cordova-sqlite-storage
 ```
 
-Then, to run it, cd into `myBlank` and run:
+Then, to run it, cd into `mynoteapp` and run:
 
 ```bash
-$ ionic platform add ios
-$ ionic run ios
+$ npm install
+$ ionic serve
 ```
-
-Substitute ios for android if not on a Mac.
-
