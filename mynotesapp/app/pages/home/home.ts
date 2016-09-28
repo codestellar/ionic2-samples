@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Platform, ActionSheetController } from 'ionic-angular';
 import { Note } from '../../models/note';
-import {NoteService} from '../../providers/note-service/note-service';
-import {NoteDetailPage} from '../note-detail/note-detail';
-import {Truncate} from '../../pipes/truncate';
+import { NoteService } from '../../providers/note-service/note-service';
+import { NoteDetailPage } from '../note-detail/note-detail';
+import { Truncate } from '../../pipes/truncate';
+import { SocialSharing } from 'ionic-native';
 
 @Component({
   templateUrl: 'build/pages/home/home.html',
@@ -11,8 +12,12 @@ import {Truncate} from '../../pipes/truncate';
 })
 export class HomePage {
   notes: Note[];
-
-  constructor(public navCtrl: NavController, public noteService: NoteService) {}
+  
+  constructor(public navCtrl: NavController, public noteService: NoteService
+  , public platform: Platform
+  , public actionsheetCtrl: ActionSheetController) {
+    
+  }
   
   // Initialise the notes by loading data from our DB
   private loadNotes() {
@@ -53,4 +58,85 @@ export class HomePage {
   private onPageDidEnter() {
     this.loadNotes();
   }
+
+ openActionSheet() {
+    let actionSheet = this.actionsheetCtrl.create({
+      title: 'Share',
+      cssClass: 'action-sheets-basic-page',
+      buttons: [
+        {
+          text: 'Facebook',
+          icon: !this.platform.is('ios') ? 'logo-facebook' : null,
+          handler: () => {
+            this.facebookShare();
+          }
+        },
+        {
+          text: 'WhatsApp',
+          icon: !this.platform.is('ios') ? 'logo-whatsapp' : null,
+          handler: () => {
+            this.whatsappShare();
+          }
+        },
+        {  
+          text: 'Twitter',
+          icon: !this.platform.is('ios') ? 'logo-twitter' : null,
+          handler: () => {
+            this.twitterShare();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel', // will always sort to be on the bottom
+          icon: !this.platform.is('ios') ? 'close' : null,
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present()
+  }
+
+    whatsappShare(){
+    SocialSharing.shareViaWhatsApp("Message via WhatsApp", null /*Image*/,  "http://github.com/codestellar" /* url */)
+      .then(()=>{
+        alert("Success");
+      },
+      ()=>{
+         alert("failed")
+      })
+  }
+
+  twitterShare(){
+    SocialSharing.shareViaTwitter("Message via Twitter",null /*Image*/,"http://github.com/codestellar")
+    .then(()=>{
+        alert("Success");
+      },
+      ()=>{
+         alert("failed")
+      })
+  }
+
+  facebookShare(){
+    SocialSharing.shareViaFacebook("Message via Twitter",null /*Image*/,"http://github.com/codestellar")
+    .then(()=>{
+        alert("Success");
+      },
+      ()=>{
+         alert("failed")
+      })
+  }
+
+  otherShare(){
+    SocialSharing.share("Genral Share Sheet",null/*Subject*/,null/*File*/,"http://github.com/codestellar")
+    .then(()=>{
+        alert("Success");
+      },
+      ()=>{
+         alert("failed")
+      })
+
+  }
+
 }
