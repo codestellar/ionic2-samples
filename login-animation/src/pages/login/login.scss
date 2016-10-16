@@ -1,0 +1,17 @@
+page-login {
+
+.login { 
+ 
+    scroll-content {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+ 
+    img {
+        width: 50%;
+        height: auto;
+        margin-left: 25%;
+    }
+}
+}
